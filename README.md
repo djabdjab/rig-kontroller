@@ -12,34 +12,34 @@ Custom USB HID → MIDI bridge for the Native Instruments Rig Kontrol 3 on moder
 - Audio interface — this bridge is MIDI-only; use your Focusrite for audio. The RK3's audio is a vendor-class isochronous USB stream, **but it is not undocumented**: NI's "caiaq" protocol is reverse-engineered and open-source in the Linux kernel (`sound/usb/caiaq/`), and the RK3 is in its device table. A userspace macOS audio bridge is a real (large) project, not a dead end — see [`CAIAQ_AUDIO.md`](CAIAQ_AUDIO.md).
 
 ## Location
-`~/rig-kontrol-midi/`
+`~/rig-kontroller/`
 
 ## Dependencies
 ```bash
-pip3 install -r ~/rig-kontrol-midi/requirements.txt   # pyusb, python-rtmidi
+pip3 install -r ~/rig-kontroller/requirements.txt   # pyusb, python-rtmidi
 brew install libusb
 ```
 
 ## Usage
 ```bash
 # Run the bridge
-python3 ~/rig-kontrol-midi/rig_kontrol_midi.py
+python3 ~/rig-kontroller/rig_kontrol_midi.py
 
 # Calibrate expression pedal range
-python3 ~/rig-kontrol-midi/rig_kontrol_midi.py --calibrate
+python3 ~/rig-kontroller/rig_kontrol_midi.py --calibrate
 
 # Dump raw USB packets (confirm byte offsets on real hardware)
-python3 ~/rig-kontrol-midi/rig_kontrol_midi.py --debug
+python3 ~/rig-kontroller/rig_kontrol_midi.py --debug
 
 # View/edit config
-python3 ~/rig-kontrol-midi/rig_kontrol_midi.py --config
+python3 ~/rig-kontroller/rig_kontrol_midi.py --config
 ```
 
 ## Auto-start at login (optional)
 A macOS LaunchAgent is included so the bridge starts on login and restarts on
 crash/re-plug:
 ```bash
-cp ~/rig-kontrol-midi/com.djabdjab.rigkontrol3.plist ~/Library/LaunchAgents/
+cp ~/rig-kontroller/com.djabdjab.rigkontrol3.plist ~/Library/LaunchAgents/
 launchctl load ~/Library/LaunchAgents/com.djabdjab.rigkontrol3.plist
 ```
 
@@ -62,7 +62,7 @@ launchctl load ~/Library/LaunchAgents/com.djabdjab.rigkontrol3.plist
 | SW8 | Note 67 | |
 | Pedal | CC 11 (Expression) | Wah, volume, filter sweep |
 
-Edit `~/rig-kontrol-midi/config.json` to change any mapping. Set `"note": null, "cc": 64` on a button to send CC instead of notes.
+Edit `~/rig-kontroller/config.json` to change any mapping. Set `"note": null, "cc": 64` on a button to send CC instead of notes.
 
 ## USB Protocol (reversed)
 - **VID:** `0x17CC` / **PID:** `0x1940` (confirmed via IORegistry; cross-checked against `Timebutt/rig-kontrol-web`)

@@ -2,6 +2,8 @@
 
 Custom USB HID → MIDI bridge for the Native Instruments Rig Kontrol 3 on modern macOS. NI killed driver support, so we reverse-engineered the USB protocol and built a userspace bridge.
 
+> **Building a full rig with this?** See [`RIG.md`](RIG.md) — the complete bass wobble/ethereal setup (Guitar Rig 6 rack + pedalboard signal chain), with the matching [`config.bass-wobble.json`](config.bass-wobble.json).
+
 ## What It Does
 - Reads raw USB HID data from the Rig Kontrol 3
 - Creates a virtual CoreMIDI port ("Rig Kontrol 3") visible to any DAW

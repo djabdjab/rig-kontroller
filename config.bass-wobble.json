@@ -1,0 +1,14 @@
+{
+  "midi_channel": 1,
+  "pedal": { "cc": 11, "min_raw": 57, "max_raw": 736, "invert": false, "label": "SPACE — Pro-Filter Freq + Preset Volume (swell into The Room)" },
+  "buttons": {
+    "1": { "note": null, "cc": 20, "cc_value": 127, "label": "WOBBLE on/off" },
+    "2": { "note": null, "cc": 21, "cc_value": 127, "label": "RATE x2 (1/8 <-> 1/16)" },
+    "3": { "note": null, "cc": 22, "cc_value": 127, "label": "SUB (Oktaver)" },
+    "4": { "note": null, "cc": 23, "cc_value": 127, "label": "SYNTH (Harmonic Synthesizer, Bass)" },
+    "5": { "note": null, "cc": 24, "cc_value": 127, "label": "SHAPE (LFO <-> Step Sequencer)" },
+    "6": { "note": null, "cc": 25, "cc_value": 127, "label": "DUB DELAY (synced)" },
+    "7": { "note": null, "cc": 26, "cc_value": 127, "label": "GRIT (pre-filter Skreamer boost)" },
+    "8": { "note": null, "cc": 27, "cc_value": 127, "label": "TAP tempo" }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "midi_channel": 1,
+  "pedal": {
+    "cc": 11,
+    "min_raw": 57,
+    "max_raw": 736,
+    "invert": false
+  },
+  "buttons": {
+    "1": { "note": null, "cc": 20, "cc_value": 127 },
+    "2": { "note": null, "cc": 21, "cc_value": 127 },
+    "3": { "note": null, "cc": 22, "cc_value": 127 },
+    "4": { "note": null, "cc": 23, "cc_value": 127 },
+    "5": { "note": null, "cc": 24, "cc_value": 127 },
+    "6": { "note": null, "cc": 25, "cc_value": 127 },
+    "7": { "note": null, "cc": 26, "cc_value": 127 },
+    "8": { "note": null, "cc": 27, "cc_value": 127 }
+  }
+}

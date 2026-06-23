@@ -45,6 +45,30 @@ launchctl load ~/Library/LaunchAgents/com.djabdjab.rigkontrol3.plist
 3. Under Input Ports, enable **Track** and **Remote** for "Rig Kontrol 3"
 4. **Cmd+M** to enter MIDI Map mode → click any parameter → stomp a footswitch
 
+## Live Rig (Guitar Rig standalone)
+For live use, run **Guitar Rig standalone** — it boots fast, runs a tighter buffer than a DAW, and there's no session to crash mid-set. Use the footswitches as independent stompbox on/off toggles: 8 switches = **256 on/off combinations**, from dead clean to everything stacked.
+
+A ready-made mapping is included. Load it with:
+```bash
+cp ~/rig-kontroller/config.guitar-rig-live.json ~/rig-kontroller/config.json
+rig-kontroller --calibrate   # re-capture your pedal range if needed
+```
+Every switch is in **CC selector mode** — one CC message on press, nothing on release — so Guitar Rig's *Toggle* assignment can never double-fire from the footswitch's release event.
+
+| Switch | Sends | Suggested box |
+|--------|-------|---------------|
+| SW1 | CC 20 | Clean boost / OD (solo lift) |
+| SW2 | CC 21 | Distortion / Fuzz |
+| SW3 | CC 22 | Delay |
+| SW4 | CC 23 | Reverb |
+| SW5 | CC 24 | Modulation (chorus / phaser) |
+| SW6 | CC 25 | Noise gate |
+| SW7 | CC 26 | Filter / octaver / weird FX |
+| SW8 | CC 27 | Second amp / preset jump |
+| Pedal | CC 11 | Wah or Volume |
+
+**Assign in Guitar Rig:** right-click a component's on/off (power) button → **Learn**, stomp the switch, then set the assignment **Mode = Toggle**. For the pedal, right-click a Wah/Volume slider → **Learn** → rock the pedal. Start the bridge *before* Guitar Rig so the "Rig Kontrol 3" port exists when GR scans MIDI. (CC 20–27 are undefined/general-purpose MIDI CCs, so they won't collide with standard controls.)
+
 ## Default Mapping
 | Control | MIDI Message | Default |
 |---------|-------------|---------|
@@ -66,7 +90,7 @@ Edit `~/rig-kontroller/config.json` to change any mapping. Set `"note": null, "c
   - **Long packet (33 bytes)** — carries the expression-pedal ADC; `byte[0]` is `0x03` (idle) or `0x04` (button event).
   - **Short packet (8 bytes)** — button event on some firmware/OS paths.
 - `byte[1]`: button bitmask (`0x01`=SW1, `0x02`=SW2, `0x04`=SW3, `0x08`=SW4, `0x10`=SW5, `0x20`=SW6, `0x40`=SW7, `0x80`=SW8, `0x00`=release)
-- `byte[5:6]`: pedal ADC — **16-bit big-endian**, travel ~0–600 (run `--calibrate` for your unit).
+- `byte[5:6]`: pedal ADC — **16-bit big-endian**, travel ~57–736 on the reference unit (confirmed on hardware; run `--calibrate` for yours).
   - ⚠️ Earlier notes read this as `byte[6:7]` little-endian and saw a pinned `~1024–1276` range. That was a bug: it captured `byte[7]` (the `0x04` type marker) as the high byte. Use `--debug` to verify the offset on hardware.
 
 ## Pedalboard Idea

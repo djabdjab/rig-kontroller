@@ -61,6 +61,42 @@ cp ~/rig-kontroller/config.bass-wobble.json ~/rig-kontroller/config.json
 rig-kontroller            # then re-run --calibrate if the pedal range drifted
 ```
 
+## Build steps (one-time)
+Assemble it once, then **Save as a Rack Preset** — it reloads in any GR instance forever after.
+
+**Prep**
+1. Start the bridge: `rig-kontroller` (with `config.bass-wobble.json` loaded). This creates the "Rig Kontrol 3" MIDI port.
+2. Guitar Rig → **Preferences → MIDI** → enable **"Rig Kontrol 3"** as a controller input (standalone). In a DAW the plugin gets MIDI from its host track instead.
+
+**Build the chain** (drag from the Components browser, top → bottom)
+3. **Noise Gate** — threshold just high enough to kill input hiss.
+4. **VC 76** comp — moderate; Expert panel **Dry ~30%** (parallel).
+5. **Harmonic Synthesizer** — set the **Guitar/Bass switch to BASS** (toggled later by SW4).
+6. **Oktaver** — Oct 1 up, Oct 2 down, Dry full (toggled by SW3).
+7. **Crossover** (Tools) — split **~130 Hz**. Leave the **LOW** lane empty (clean); into the **HIGH** lane drag **Skreamer → Pro-Filter**. Put those two in a **Container** so SW1 can toggle the whole wobble block.
+8. **Pro-Filter:** Mode **LP**, Slope **24 dB**, Res **~75%**, Freq **~35%**.
+9. (after the Crossover) **Replika** or **Twin Delay** — **Sync ON**, 1/8-dotted to taste (toggled by SW6).
+10. **Preset Volume** last — the pedal's swell target.
+
+**The wobble engine**
+11. Add a **Step Sequencer** modifier (gated) and/or an **LFO** modifier (smooth). **Tempo Sync ON**; Step Seq = 1/16, LFO = 1/8.
+12. **Drag the modifier's assignment icon onto Pro-Filter → Freq.** In the Expert panel set the **modulation depth** (~50%, taste up).
+13. For SW5 (SHAPE): assign *both* an LFO and a Step Seq to Freq and toggle which is active — or toggle the LFO waveform sine↔square.
+
+**The 8 Macro buttons**
+14. In the rack **Macros** section, create 8 **Macro buttons**, each in **Toggle** mode.
+15. Assign each to its target's **on/off (bypass)**: M1→WOBBLE container · M2→wobble rate · M3→Oktaver · M4→Harmonic Synth · M5→shape · M6→delay · M7→Skreamer drive boost · M8→**Metronome Tap**. For M2/M7 use the Macro's Off/On values + Min/Max to set the two states.
+16. **MIDI-Learn each Macro:** right-click the Macro → **Learn MIDI Control** → stomp the matching RK3 switch (SW1→M1 … SW8→M8). CC 20–27 land automatically.
+
+**The SPACE pedal**
+17. Make a **Macro knob** named "SPACE." Right-click → **Learn MIDI Control** → rock the RK3 pedal (CC 11).
+18. Assign SPACE to **Pro-Filter Freq** (Min/Max: heel = dark, toe = open) **and** to **Preset Volume** (heel = lower, toe = unity/louder). One pedal opens the filter and pushes into The Room.
+
+**Tempo · test · save**
+19. Set the **Metronome BPM** to your tune (or tap SW8). Synced modifiers + delay follow it.
+20. Stomp SW1, ride the pedal — confirm the wobble tracks and the sweep is clean.
+21. **Save as a Rack Preset** → "BASS — Wobble/Ether." One click reloads it from then on.
+
 ## Playing the two poles
 - **Wobble / dub:** SW1 on, SW3 sub on, ride the pedal; SW2 for double-time drops, SW5 smooth↔gated, SW8 to tap tempo, SW6 for clocked echoes. On the board: **Zeus fuzz** for grit, **Zeus octave OFF** (don't fight GR's Oktaver), Muff for the huge feature fuzz.
 - **Ethereal / FACS:** SW4 synth on, SW1 off (or a slow LFO), feather the pedal to swell into **Room → flanger → Joyo**; Tensor does reverse/drones. Let the board's free-running ambience breathe.

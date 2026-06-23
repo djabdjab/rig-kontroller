@@ -9,27 +9,34 @@ Custom USB HID → MIDI bridge for the Native Instruments Rig Kontrol 3 on moder
 - Expression pedal → MIDI CC
 
 ## What It Doesn't Do
-- Audio interface — the RK3's audio uses a proprietary vendor-class USB protocol. No driver = no audio. Use your Focusrite for that.
+- Audio interface — this bridge is MIDI-only; use your Focusrite for audio. The RK3's audio is a vendor-class isochronous USB stream, **but it is not undocumented**: NI's "caiaq" protocol is reverse-engineered and open-source in the Linux kernel (`sound/usb/caiaq/`), and the RK3 is in its device table. A userspace macOS audio bridge is a real (large) project, not a dead end — see [`CAIAQ_AUDIO.md`](CAIAQ_AUDIO.md).
 
 ## Location
-`~/rig-kontrol-midi/`
+`~/rig-kontroller/`
 
-## Dependencies
+## Install
 ```bash
-pip3 install hidapi python-rtmidi pyusb
-brew install libusb
+cd ~/rig-kontroller && ./install.sh
 ```
+This installs `libusb` (via Homebrew), creates an isolated virtualenv with the
+Python deps, and drops a `rig-kontroller` command into `~/.local/bin` (which
+must be on your `PATH`). Nothing touches system Python.
 
 ## Usage
+Once installed, run it from anywhere in the terminal:
 ```bash
-# Run the bridge
-python3 ~/rig-kontrol-midi/rig_kontrol_midi.py
+rig-kontroller              # run the bridge
+rig-kontroller --calibrate  # calibrate expression-pedal range
+rig-kontroller --debug      # dump raw USB packets (verify byte offsets)
+rig-kontroller --config     # show config file location + contents
+```
 
-# Calibrate expression pedal range
-python3 ~/rig-kontrol-midi/rig_kontrol_midi.py --calibrate
-
-# View/edit config
-python3 ~/rig-kontrol-midi/rig_kontrol_midi.py --config
+## Auto-start at login (optional)
+A macOS LaunchAgent is included so the bridge starts on login and restarts on
+crash/re-plug:
+```bash
+cp ~/rig-kontroller/com.djabdjab.rigkontrol3.plist ~/Library/LaunchAgents/
+launchctl load ~/Library/LaunchAgents/com.djabdjab.rigkontrol3.plist
 ```
 
 ## Ableton Setup
@@ -51,14 +58,16 @@ python3 ~/rig-kontrol-midi/rig_kontrol_midi.py --config
 | SW8 | Note 67 | |
 | Pedal | CC 11 (Expression) | Wah, volume, filter sweep |
 
-Edit `~/rig-kontrol-midi/config.json` to change any mapping. Set `"note": null, "cc": 64` on a button to send CC instead of notes.
+Edit `~/rig-kontroller/config.json` to change any mapping. Set `"note": null, "cc": 64` on a button to send CC instead of notes.
 
 ## USB Protocol (reversed)
-- **VID:** `0x17CC` / **PID:** `0x1940`
-- 33-byte packets on EP 0x81 IN (bulk)
-- `byte[0]`: `0x03` = idle, `0x04` = button event
+- **VID:** `0x17CC` / **PID:** `0x1940` (confirmed via IORegistry; cross-checked against `Timebutt/rig-kontrol-web`)
+- Reads on EP `0x81` IN. Two packet shapes:
+  - **Long packet (33 bytes)** — carries the expression-pedal ADC; `byte[0]` is `0x03` (idle) or `0x04` (button event).
+  - **Short packet (8 bytes)** — button event on some firmware/OS paths.
 - `byte[1]`: button bitmask (`0x01`=SW1, `0x02`=SW2, `0x04`=SW3, `0x08`=SW4, `0x10`=SW5, `0x20`=SW6, `0x40`=SW7, `0x80`=SW8, `0x00`=release)
-- `byte[6:8]`: pedal ADC (16-bit little-endian, range ~1024–1276)
+- `byte[5:6]`: pedal ADC — **16-bit big-endian**, travel ~0–600 (run `--calibrate` for your unit).
+  - ⚠️ Earlier notes read this as `byte[6:7]` little-endian and saw a pinned `~1024–1276` range. That was a bug: it captured `byte[7]` (the `0x04` type marker) as the high byte. Use `--debug` to verify the offset on hardware.
 
 ## Pedalboard Idea
 Load effects on a track, map each footswitch to toggle an effect on/off:

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  macOS LaunchAgent: auto-starts the Rig Kontrol 3 MIDI bridge at login and
+  restarts it if it crashes or the device is re-plugged.
+
+  This is the macOS analogue of the systemd unit + udev rules shipped by
+  rstets/rigkontrol3-linux-midicontroller.
+
+  Install:
+    cp com.djabdjab.rigkontrol3.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.djabdjab.rigkontrol3.plist
+
+  Uninstall:
+    launchctl unload ~/Library/LaunchAgents/com.djabdjab.rigkontrol3.plist
+
+  Adjust the two paths below if your username or install location differs.
+  Logs land in /tmp/rigkontrol3.{out,err}.log.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.djabdjab.rigkontrol3</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/homebase/rig-kontroller/.venv/bin/python</string>
+        <string>/Users/homebase/rig-kontroller/rig_kontroller.py</string>
+    </array>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/rigkontrol3.out.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/tmp/rigkontrol3.err.log</string>
+</dict>
+</plist>

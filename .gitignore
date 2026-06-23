@@ -2,3 +2,4 @@ config.json
 Icon
 __pycache__/
 *.pyc
+.venv/

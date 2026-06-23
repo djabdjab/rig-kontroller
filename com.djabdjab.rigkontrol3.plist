@@ -25,8 +25,8 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/usr/bin/python3</string>
-        <string>/Users/homebase/rig-kontroller/rig_kontrol_midi.py</string>
+        <string>/Users/homebase/rig-kontroller/.venv/bin/python</string>
+        <string>/Users/homebase/rig-kontroller/rig_kontroller.py</string>
     </array>
 
     <key>RunAtLoad</key>

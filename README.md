@@ -14,25 +14,21 @@ Custom USB HID → MIDI bridge for the Native Instruments Rig Kontrol 3 on moder
 ## Location
 `~/rig-kontroller/`
 
-## Dependencies
+## Install
 ```bash
-pip3 install -r ~/rig-kontroller/requirements.txt   # pyusb, python-rtmidi
-brew install libusb
+cd ~/rig-kontroller && ./install.sh
 ```
+This installs `libusb` (via Homebrew), creates an isolated virtualenv with the
+Python deps, and drops a `rig-kontroller` command into `~/.local/bin` (which
+must be on your `PATH`). Nothing touches system Python.
 
 ## Usage
+Once installed, run it from anywhere in the terminal:
 ```bash
-# Run the bridge
-python3 ~/rig-kontroller/rig_kontrol_midi.py
-
-# Calibrate expression pedal range
-python3 ~/rig-kontroller/rig_kontrol_midi.py --calibrate
-
-# Dump raw USB packets (confirm byte offsets on real hardware)
-python3 ~/rig-kontroller/rig_kontrol_midi.py --debug
-
-# View/edit config
-python3 ~/rig-kontroller/rig_kontrol_midi.py --config
+rig-kontroller              # run the bridge
+rig-kontroller --calibrate  # calibrate expression-pedal range
+rig-kontroller --debug      # dump raw USB packets (verify byte offsets)
+rig-kontroller --config     # show config file location + contents
 ```
 
 ## Auto-start at login (optional)

@@ -1,0 +1,6 @@
+# Rig Kontrol 3 MIDI bridge dependencies
+# Install with: pip3 install -r requirements.txt
+# Also requires libusb at the system level: brew install libusb
+
+pyusb>=1.2.1          # raw USB HID reads from the Rig Kontrol 3
+python-rtmidi>=1.5.0  # virtual CoreMIDI output port

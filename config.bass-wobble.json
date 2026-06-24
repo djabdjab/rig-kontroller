@@ -1,14 +1,15 @@
 {
   "midi_channel": 1,
-  "pedal": { "cc": 11, "min_raw": 57, "max_raw": 736, "invert": false, "label": "SPACE — Pro-Filter Freq + Preset Volume (swell into The Room)" },
+  "pedal": { "cc": 11, "min_raw": 57, "max_raw": 736, "invert": false, "label": "SPACE — Pro-Filter Freq + Volume swell (CC11, continuous)" },
+  "_layout_note": "Hosted in Ableton (GR6 as plugin). Keys below are the BRIDGE's internal button index. The RK3's physical pods are rotated +4: physical pod 1 = bridge index 5, pod 2 = 6, pod 3 = 7, pod 4 = 8, pod 5 = 1, pod 6 = 2, pod 7 = 3, pod 8 = 4. Notes 60-67 (C3-G3) are assigned so physical pods 1-8 read as WOBBLE,RATE,SUB,SYNTH,SHIMMER,DELAY,GRIT,TAP. Buttons send NOTES (not CC) so Ableton toggles them natively.",
   "buttons": {
-    "1": { "note": null, "cc": 20, "cc_value": 127, "label": "WOBBLE on/off" },
-    "2": { "note": null, "cc": 21, "cc_value": 127, "label": "RATE x2 (1/8 <-> 1/16)" },
-    "3": { "note": null, "cc": 22, "cc_value": 127, "label": "SUB (Oktaver)" },
-    "4": { "note": null, "cc": 23, "cc_value": 127, "label": "SYNTH (Harmonic Synthesizer, Bass)" },
-    "5": { "note": null, "cc": 24, "cc_value": 127, "label": "SHAPE (LFO <-> Step Sequencer)" },
-    "6": { "note": null, "cc": 25, "cc_value": 127, "label": "DUB DELAY (synced)" },
-    "7": { "note": null, "cc": 26, "cc_value": 127, "label": "GRIT (pre-filter Skreamer boost)" },
-    "8": { "note": null, "cc": 27, "cc_value": 127, "label": "TAP tempo" }
+    "5": { "note": 60, "cc": null, "label": "PHYS 1 — WOBBLE (Skreamer + Pro-Filter on/off)" },
+    "6": { "note": 61, "cc": null, "label": "PHYS 2 — RATE x2 (LFO 1/8 <-> 1/16)" },
+    "7": { "note": 62, "cc": null, "label": "PHYS 3 — SUB (Oktaver on/off)" },
+    "8": { "note": 63, "cc": null, "label": "PHYS 4 — SYNTH (Harmonic Synth on/off)" },
+    "1": { "note": 64, "cc": null, "label": "PHYS 5 — SHIMMER (Replika bloom)" },
+    "2": { "note": 65, "cc": null, "label": "PHYS 6 — DELAY (Replika echo on/off)" },
+    "3": { "note": 66, "cc": null, "label": "PHYS 7 — GRIT (Skreamer drive boost)" },
+    "4": { "note": 67, "cc": null, "label": "PHYS 8 — TAP tempo" }
   }
 }
